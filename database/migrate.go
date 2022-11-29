@@ -36,7 +36,7 @@ func main() {
 
 	var args = [3]string{}
 	args[0] = os.Getenv("DB_CONNECTION")
-	args[1] = os.Getenv("DB_USERNAME") + ":" + os.Getenv("DB_PASSWORD") + "@tcp(" + os.Getenv("DB_HOST") + ":" + os.Getenv("DB_PORT") + ")/" + os.Getenv("DB_DATABASE") + "?&parseTime=true"
+	args[1] = os.Getenv("DB_USERNAME") + ":" + os.Getenv("DB_PASSWORD") + "@tcp(localhost:" + os.Getenv("DB_PORT") + ")/" + os.Getenv("DB_DATABASE") + "?&parseTime=true"
 	args[2] = action[0]
 
 	driver, dbstring, command := args[0], args[1], args[2]
