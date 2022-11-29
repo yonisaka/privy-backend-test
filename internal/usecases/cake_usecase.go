@@ -7,6 +7,7 @@ import (
 	"privy-backend-test/internal/domain/usecase"
 	"privy-backend-test/internal/helpers"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid"
@@ -40,6 +41,14 @@ func (i *cakeUsecase) GetCakeByID(ctx *gin.Context, id int64) (*domain.Cake, err
 }
 
 func (i *cakeUsecase) Store(ctx *gin.Context, cake *domain.Cake) error {
+	cake.Image = generateDefaultImage(cake.Image)
+	timeNow, err := helpers.ConvertToTime(time.Now())
+	if err != nil {
+		return err
+	}
+	cake.CreatedAt = &timeNow
+	cake.UpdatedAt = &timeNow
+
 	if err := i.cakeRepo.Store(ctx, cake); err != nil {
 		return err
 	}
@@ -48,6 +57,12 @@ func (i *cakeUsecase) Store(ctx *gin.Context, cake *domain.Cake) error {
 }
 
 func (i *cakeUsecase) Update(ctx *gin.Context, cake *domain.Cake) error {
+	cake.Image = generateDefaultImage(cake.Image)
+	timeNow, err := helpers.ConvertToTime(time.Now())
+	if err != nil {
+		return err
+	}
+	cake.UpdatedAt = &timeNow
 	if err := i.cakeRepo.Update(ctx, cake); err != nil {
 		return err
 	}
@@ -92,4 +107,12 @@ func (i *cakeUsecase) UploadImage(ctx *gin.Context) (interface{}, error) {
 	return map[string]interface{}{
 		"filename": uniqFilename,
 	}, nil
+}
+
+func generateDefaultImage(image string) string {
+	if image == "" {
+		return "no-image.jpeg"
+	}
+
+	return image
 }
