@@ -27,7 +27,7 @@ func Connection() *sqlx.DB {
 
 	var err error
 
-	db, err = sqlx.Open(conn, user+":"+pass+"@tcp("+host+":"+port+")/"+name)
+	db, err = sqlx.Open(conn, user+":"+pass+"@tcp("+host+":"+port+")/"+name+"?parseTime=true")
 	if err != nil {
 		log.Fatalf("could not open mysql db connection: %v\n", err)
 	}
