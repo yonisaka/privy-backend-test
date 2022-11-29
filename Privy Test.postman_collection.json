@@ -1,0 +1,565 @@
+{
+	"info": {
+		"_postman_id": "ed3b6bd8-debe-437d-961a-1af5a18323bb",
+		"name": "Privy Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11992539"
+	},
+	"item": [
+		{
+			"name": "Cake",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/cakes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cakes"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Succes",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/cakes",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cakes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 29 Nov 2022 15:21:56 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "557"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"title\": \"Lemon cheesecake\",\n            \"description\": \"A cheesecake made of lemon\",\n            \"rating\": 7,\n            \"image\": \"localhost:8080/image/cake/no-image.jpeg\",\n            \"created_at\": \"2022-11-29 22:19\",\n            \"updated_at\": \"2022-11-29 22:19\"\n        },\n        {\n            \"id\": 2,\n            \"title\": \"Cake cake\",\n            \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam\",\n            \"rating\": 5.5,\n            \"image\": \"localhost:8080/image/cake/no-image.jpeg\",\n            \"created_at\": \"2022-11-29 22:19\",\n            \"updated_at\": \"2022-11-29 22:19\"\n        }\n    ],\n    \"status\": 200,\n    \"error\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/cakes/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cakes",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/cakes/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cakes",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 29 Nov 2022 15:22:01 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "235"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"Lemon cheesecake\",\n        \"description\": \"A cheesecake made of lemon\",\n        \"rating\": 7,\n        \"image\": \"localhost:8080/image/cake/no-image.jpeg\",\n        \"created_at\": \"2022-11-29 22:19\",\n        \"updated_at\": \"2022-11-29 22:19\"\n    },\n    \"status\": 200,\n    \"error\": 0\n}"
+						},
+						{
+							"name": "Item Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/cakes/5",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cakes",
+										"5"
+									]
+								}
+							},
+							"status": "Not Acceptable",
+							"code": 406,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 29 Nov 2022 15:22:54 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Code\": 406,\n    \"Message\": \"cake not found\",\n    \"Status\": 406\n}"
+						}
+					]
+				},
+				{
+					"name": "Store",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Cake Create\",\n    \"description\": \"Cake Create Description\",\n    \"rating\": 8.5,\n    \"image\": \"67a24120c865.jpeg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cakes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cakes"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Cake Create\",\n    \"description\": \"Cake Create Description\",\n    \"rating\": 8.5,\n    \"image\": \"a2e3cd7f0597.jpeg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/cakes",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cakes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 29 Nov 2022 15:24:33 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "60"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Create cake successfull\",\n    \"status\": 200,\n    \"error\": 0\n}"
+						},
+						{
+							"name": "Error Validate",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"description\": \"Cake Create Description\",\n    \"rating\": 8.5,\n    \"image\": \"a2e3cd7f0597.jpeg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/cakes",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cakes"
+									]
+								}
+							},
+							"status": "Not Acceptable",
+							"code": 406,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 29 Nov 2022 15:25:08 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "91"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Code\": 406,\n    \"Message\": [\n        {\n            \"field\": \"Title\",\n            \"message\": \"Field Title is required\"\n        }\n    ],\n    \"Status\": 406\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Cake Update\",\n    \"description\": \"Cake Update\",\n    \"rating\": 5,\n    \"image\": \"67a24120c865.jpeg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cakes/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cakes",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Cake Update\",\n    \"description\": \"Cake Update\",\n    \"rating\": 5,\n    \"image\": \"a2e3cd7f0597.jpeg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/cakes/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cakes",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 29 Nov 2022 15:26:03 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "60"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Update cake successfull\",\n    \"status\": 200,\n    \"error\": 0\n}"
+						},
+						{
+							"name": "Error Validate",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Cake Update\",\n    \"description\": \"Cake Update\",\n    \"rating\": 11,\n    \"image\": \"a2e3cd7f0597.jpeg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/cakes/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cakes",
+										"1"
+									]
+								}
+							},
+							"status": "Not Acceptable",
+							"code": 406,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 29 Nov 2022 15:26:20 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "103"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Code\": 406,\n    \"Message\": [\n        {\n            \"field\": \"Rating\",\n            \"message\": \"Should be less than or equal to 10\"\n        }\n    ],\n    \"Status\": 406\n}"
+						},
+						{
+							"name": "Item Not Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Cake Update\",\n    \"description\": \"Cake Update\",\n    \"rating\": 10,\n    \"image\": \"a2e3cd7f0597.jpeg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/cakes/5",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cakes",
+										"5"
+									]
+								}
+							},
+							"status": "Not Acceptable",
+							"code": 406,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 29 Nov 2022 15:28:21 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Code\": 406,\n    \"Message\": \"cake not found\",\n    \"Status\": 406\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/cakes/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cakes",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/cakes/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cakes",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 29 Nov 2022 15:28:52 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "60"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Delete cake successfull\",\n    \"status\": 200,\n    \"error\": 0\n}"
+						},
+						{
+							"name": "Item Not Found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/cakes/5",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cakes",
+										"5"
+									]
+								}
+							},
+							"status": "Not Acceptable",
+							"code": 406,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 29 Nov 2022 15:33:50 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Code\": 406,\n    \"Message\": \"cake not found\",\n    \"Status\": 406\n}"
+						}
+					]
+				},
+				{
+					"name": "Upload Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/lacrose/Downloads/cake.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/cakes/upload",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cakes",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Image",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
