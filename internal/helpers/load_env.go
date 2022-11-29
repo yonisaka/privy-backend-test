@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"os"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -9,9 +10,18 @@ import (
 // use godot package to load/read the .env file and
 // return the value of the key
 func GoDotEnvVariable(key string) string {
-	// load .env file
-	err := godotenv.Load(".env")
+	path, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
 
+	// if contains tests
+	if strings.Contains(path, "repositories") {
+		path = path[:len(path)-21]
+	}
+
+	// load .env file
+	err = godotenv.Load(string(path) + "/.env")
 	if err != nil {
 		panic("Error loading .env file")
 	}

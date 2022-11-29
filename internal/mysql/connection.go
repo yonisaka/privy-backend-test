@@ -1,25 +1,46 @@
 package mysql
 
 import (
-	"fmt"
+	"log"
 	"privy-backend-test/internal/helpers"
+	"time"
 
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 )
 
-func Connection() (db *gorm.DB) {
+var (
+	db *sqlx.DB
+)
+
+func Connection() *sqlx.DB {
+	conn := helpers.GoDotEnvVariable("DB_CONNECTION")
 	host := helpers.GoDotEnvVariable("DB_HOST")
 	port := helpers.GoDotEnvVariable("DB_PORT")
 	user := helpers.GoDotEnvVariable("DB_USERNAME")
 	pass := helpers.GoDotEnvVariable("DB_PASSWORD")
 	name := helpers.GoDotEnvVariable("DB_DATABASE")
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", user, pass, host, port, name)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		panic(err)
+	if db != nil {
+		return db
 	}
+
+	var err error
+
+	db, err = sqlx.Open(conn, user+":"+pass+"@tcp("+host+":"+port+")/"+name)
+	if err != nil {
+		log.Fatalf("could not open mysql db connection: %v\n", err)
+	}
+
+	err = db.Ping()
+	if err != nil {
+		log.Fatalf("failed ping mysql db connection: %v\n", err)
+	}
+
+	// this configuration refer to https://www.alexedwards.net/blog/configuring-sqldb
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(25)
+	db.SetConnMaxLifetime(5 * time.Minute)
 
 	return db
 }

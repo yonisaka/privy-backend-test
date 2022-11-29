@@ -1,14 +1,12 @@
 package usecases
 
 import (
-	"context"
 	"errors"
 	"privy-backend-test/internal/domain"
 	"privy-backend-test/internal/domain/repository"
 	"privy-backend-test/internal/domain/usecase"
 	"privy-backend-test/internal/helpers"
 	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid"
@@ -22,9 +20,7 @@ func NewCakeUsecase(cakeRepo repository.CakeRepository) usecase.CakeUsecase {
 	return &cakeUsecase{cakeRepo: cakeRepo}
 }
 
-func (i *cakeUsecase) GetCakes(ctx context.Context) (*[]domain.Cake, error) {
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
+func (i *cakeUsecase) GetCakes(ctx *gin.Context) (*[]domain.Cake, error) {
 
 	cakes, err := i.cakeRepo.GetCakes(ctx)
 	if err != nil {
@@ -34,10 +30,7 @@ func (i *cakeUsecase) GetCakes(ctx context.Context) (*[]domain.Cake, error) {
 	return cakes, nil
 }
 
-func (i *cakeUsecase) GetCakeByID(ctx context.Context, id int64) (*domain.Cake, error) {
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
-
+func (i *cakeUsecase) GetCakeByID(ctx *gin.Context, id int64) (*domain.Cake, error) {
 	cake, err := i.cakeRepo.GetCakeByID(ctx, id)
 	if err != nil {
 		return nil, err
@@ -46,36 +39,24 @@ func (i *cakeUsecase) GetCakeByID(ctx context.Context, id int64) (*domain.Cake, 
 	return cake, nil
 }
 
-func (i *cakeUsecase) Store(ctx context.Context, cake *domain.Cake) error {
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
-
-	err := i.cakeRepo.Store(ctx, cake)
-	if err != nil {
+func (i *cakeUsecase) Store(ctx *gin.Context, cake *domain.Cake) error {
+	if err := i.cakeRepo.Store(ctx, cake); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (i *cakeUsecase) Update(ctx context.Context, cake *domain.Cake) error {
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
-
-	err := i.cakeRepo.Update(ctx, cake)
-	if err != nil {
+func (i *cakeUsecase) Update(ctx *gin.Context, cake *domain.Cake) error {
+	if err := i.cakeRepo.Update(ctx, cake); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (i *cakeUsecase) Delete(ctx context.Context, id int64) error {
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
-
-	err := i.cakeRepo.Delete(ctx, id)
-	if err != nil {
+func (i *cakeUsecase) Delete(ctx *gin.Context, id int64) error {
+	if err := i.cakeRepo.Delete(ctx, id); err != nil {
 		return err
 	}
 

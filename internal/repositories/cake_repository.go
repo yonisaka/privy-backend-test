@@ -1,15 +1,13 @@
 package repositories
 
 import (
-	"context"
-	"fmt"
 	"os"
 	"privy-backend-test/internal/domain"
 	"privy-backend-test/internal/domain/repository"
 	"privy-backend-test/internal/helpers"
+	"time"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 type cakeRepo struct {
@@ -20,79 +18,122 @@ func NewCakeRepo(base *BaseRepo) repository.CakeRepository {
 	return &cakeRepo{BaseRepo: base}
 }
 
-func (i *cakeRepo) GetCakes(ctx context.Context) (*[]domain.Cake, error) {
-	var cake []domain.Cake
-	err := i.db.WithContext(ctx).Find(&cake).Error
+func (i *cakeRepo) GetCakes(ctx *gin.Context) (*[]domain.Cake, error) {
+	rows, err := i.db.QueryContext(ctx, "SELECT * FROM cakes")
 	if err != nil {
 		return nil, err
 	}
-	return &cake, nil
-}
+	defer rows.Close()
 
-func (i *cakeRepo) GetCakeByID(ctx context.Context, id int64) (*domain.Cake, error) {
-	var cake domain.Cake
-	err := i.db.WithContext(ctx).First(&cake, id).Error
-	if err != nil {
-		return nil, err
-	}
-	return &cake, nil
-}
-
-func (i *cakeRepo) Store(ctx context.Context, cake *domain.Cake) error {
-	err := i.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		err := tx.WithContext(ctx).Create(&cake).Error
-		if err != nil {
-			return err
-		}
-		return nil
-	})
-
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (i *cakeRepo) Update(ctx context.Context, cake *domain.Cake) error {
-	err := i.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
-		row := tx.WithContext(ctx).Where("id", cake.ID).First(&domain.Cake{})
-		if row.RowsAffected == 0 {
-			return fmt.Errorf("cake not found")
-		}
-
-		err := tx.WithContext(ctx).Updates(&cake).Error
-		if err != nil {
-			return err
-		}
-		return nil
-	})
-
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (i *cakeRepo) Delete(ctx context.Context, id int64) error {
-	err := i.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+	var cakes []domain.Cake
+	for rows.Next() {
 		cake := domain.Cake{}
-		row := tx.WithContext(ctx).Where("id", id).First(&cake)
-		if row.RowsAffected == 0 {
-			return fmt.Errorf("cake not found")
+		err := rows.Scan(&cake.ID, &cake.Title, &cake.Description, &cake.Rating, &cake.Image, &cake.CreatedAt, &cake.UpdatedAt)
+		if err != nil {
+			return nil, err
 		}
-		if err := tx.WithContext(ctx).Where("id", id).Delete(&cake).Error; err != nil {
+		cakes = append(cakes, cake)
+	}
+
+	return &cakes, nil
+}
+
+func (i *cakeRepo) GetCakeByID(ctx *gin.Context, id int64) (*domain.Cake, error) {
+	row, err := i.db.QueryContext(ctx, "SELECT * FROM cakes WHERE id = ?", id)
+	if err != nil {
+		return nil, err
+	}
+	defer row.Close()
+
+	cake := domain.Cake{}
+	for row.Next() {
+		err := row.Scan(&cake.ID, &cake.Title, &cake.Description, &cake.Rating, &cake.Image, &cake.CreatedAt, &cake.UpdatedAt)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return &cake, nil
+}
+
+func (i *cakeRepo) Store(ctx *gin.Context, cake *domain.Cake) error {
+	timeNow, err := helpers.ConvertToTime(time.Now())
+	if err != nil {
+		return err
+	}
+	cake.CreatedAt = &timeNow
+	cake.UpdatedAt = &timeNow
+	store, err := i.db.PrepareContext(ctx, "INSERT INTO cakes (title, description, rating, image, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)")
+	if err != nil {
+		return err
+	}
+	defer store.Close()
+
+	_, err = store.ExecContext(ctx, cake.Title, cake.Description, cake.Rating, cake.Image, cake.CreatedAt, cake.UpdatedAt)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (i *cakeRepo) Update(ctx *gin.Context, cake *domain.Cake) error {
+	timeNow, err := helpers.ConvertToTime(time.Now())
+	if err != nil {
+		return err
+	}
+	cake.UpdatedAt = &timeNow
+	update, err := i.db.PrepareContext(ctx, "UPDATE cakes SET title = ?, description = ?, rating = ?, image = ?, updated_at = ? WHERE id = ?")
+	if err != nil {
+		return err
+	}
+	defer update.Close()
+
+	_, err = update.ExecContext(ctx, cake.Title, cake.Description, cake.Rating, cake.Image, cake.UpdatedAt, cake.ID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (i *cakeRepo) Delete(ctx *gin.Context, id int64) error {
+	tx, err := i.db.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+
+	row, err := tx.QueryContext(ctx, "SELECT image FROM cakes WHERE id = ?", id)
+	if err != nil {
+		return err
+	}
+	defer row.Close()
+
+	cake := domain.Cake{}
+	for row.Next() {
+		err := row.Scan(&cake.Image)
+		if err != nil {
 			return err
 		}
-		if cake.Image != "" {
-			filePath := helpers.GetFilePath("cake")
+	}
+
+	if cake.Image != "" {
+		filePath := helpers.GetFilePath("cake")
+		if _, err := os.Stat(filePath + cake.Image); err == nil {
 			if err := os.Remove(filePath + cake.Image); err != nil {
 				return err
 			}
 		}
-		return nil
-	})
-
+	}
+	delete, err := tx.PrepareContext(ctx, "DELETE FROM cakes WHERE id = ?")
 	if err != nil {
+		return err
+	}
+
+	_, err = delete.ExecContext(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	if err := tx.Commit(); err != nil {
 		return err
 	}
 	return nil

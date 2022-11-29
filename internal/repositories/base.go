@@ -1,11 +1,11 @@
 package repositories
 
-import "gorm.io/gorm"
+import "github.com/jmoiron/sqlx"
 
-func NewBaseRepo(db *gorm.DB) *BaseRepo {
+func NewBaseRepo(db *sqlx.DB) *BaseRepo {
 	return &BaseRepo{db: db}
 }
 
 type BaseRepo struct {
-	db *gorm.DB
+	db *sqlx.DB
 }
