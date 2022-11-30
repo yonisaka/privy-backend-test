@@ -16,11 +16,11 @@ var (
 	InternalServerError = errors.New("internal server error")
 )
 
-type fields struct {
+type cakeFields struct {
 	cakeRepo repository.CakeRepository
 }
 
-func sut(f fields) usecase.CakeUsecase {
+func cakeSut(f cakeFields) usecase.CakeUsecase {
 	return usecases.NewCakeUsecase(f.cakeRepo)
 }
 
@@ -30,7 +30,7 @@ func TestGetCakes(t *testing.T) {
 	}
 
 	type test struct {
-		fields  fields
+		fields  cakeFields
 		args    args
 		want    *[]domain.Cake
 		wantErr error
@@ -45,7 +45,7 @@ func TestGetCakes(t *testing.T) {
 			}
 
 			return test{
-				fields: fields{
+				fields: cakeFields{
 					cakeRepo: &repository.CakeRepositoryMock{
 						GetCakesFunc: func(ctx *gin.Context) (*[]domain.Cake, error) {
 							assert.Equal(t, args.ctx, ctx)
@@ -81,7 +81,7 @@ func TestGetCakes(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			tt := testFn(t)
 
-			sut := sut(tt.fields)
+			sut := cakeSut(tt.fields)
 
 			got, err := sut.GetCakes(tt.args.ctx)
 			if tt.wantErr != nil {
@@ -102,7 +102,7 @@ func TestGetCakeByID(t *testing.T) {
 	}
 
 	type test struct {
-		fields  fields
+		fields  cakeFields
 		args    args
 		want    *domain.Cake
 		wantErr error
@@ -118,7 +118,7 @@ func TestGetCakeByID(t *testing.T) {
 			}
 
 			return test{
-				fields: fields{
+				fields: cakeFields{
 					cakeRepo: &repository.CakeRepositoryMock{
 						GetCakeByIDFunc: func(ctx *gin.Context, id int64) (*domain.Cake, error) {
 							assert.Equal(t, args.ctx, ctx)
@@ -154,7 +154,7 @@ func TestGetCakeByID(t *testing.T) {
 			}
 
 			return test{
-				fields: fields{
+				fields: cakeFields{
 					cakeRepo: &repository.CakeRepositoryMock{
 						GetCakeByIDFunc: func(ctx *gin.Context, id int64) (*domain.Cake, error) {
 							assert.Equal(t, args.ctx, ctx)
@@ -175,7 +175,7 @@ func TestGetCakeByID(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			tt := testFn(t)
 
-			sut := sut(tt.fields)
+			sut := cakeSut(tt.fields)
 
 			got, err := sut.GetCakeByID(tt.args.ctx, tt.args.id)
 			if tt.wantErr != nil {
@@ -196,7 +196,7 @@ func TestStoreCake(t *testing.T) {
 	}
 
 	type test struct {
-		fields  fields
+		fields  cakeFields
 		args    args
 		wantErr error
 	}
@@ -216,7 +216,7 @@ func TestStoreCake(t *testing.T) {
 			}
 
 			return test{
-				fields: fields{
+				fields: cakeFields{
 					cakeRepo: &repository.CakeRepositoryMock{
 						StoreFunc: func(ctx *gin.Context, c *domain.Cake) error {
 							assert.Equal(t, args.ctx, ctx)
@@ -244,7 +244,7 @@ func TestStoreCake(t *testing.T) {
 			}
 
 			return test{
-				fields: fields{
+				fields: cakeFields{
 					cakeRepo: &repository.CakeRepositoryMock{
 						StoreFunc: func(ctx *gin.Context, c *domain.Cake) error {
 							assert.Equal(t, args.ctx, ctx)
@@ -264,7 +264,7 @@ func TestStoreCake(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			tt := testFn(t)
 
-			sut := sut(tt.fields)
+			sut := cakeSut(tt.fields)
 
 			err := sut.Store(tt.args.ctx, tt.args.c)
 			if tt.wantErr != nil {
@@ -283,7 +283,7 @@ func TestUpdateCake(t *testing.T) {
 	}
 
 	type test struct {
-		fields  fields
+		fields  cakeFields
 		args    args
 		wantErr error
 	}
@@ -304,7 +304,7 @@ func TestUpdateCake(t *testing.T) {
 			}
 
 			return test{
-				fields: fields{
+				fields: cakeFields{
 					cakeRepo: &repository.CakeRepositoryMock{
 						UpdateFunc: func(ctx *gin.Context, c *domain.Cake) error {
 							assert.Equal(t, args.ctx, ctx)
@@ -333,7 +333,7 @@ func TestUpdateCake(t *testing.T) {
 			}
 
 			return test{
-				fields: fields{
+				fields: cakeFields{
 					cakeRepo: &repository.CakeRepositoryMock{
 						UpdateFunc: func(ctx *gin.Context, c *domain.Cake) error {
 							assert.Equal(t, args.ctx, ctx)
@@ -353,7 +353,7 @@ func TestUpdateCake(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			tt := testFn(t)
 
-			sut := sut(tt.fields)
+			sut := cakeSut(tt.fields)
 
 			err := sut.Update(tt.args.ctx, tt.args.c)
 			if tt.wantErr != nil {
@@ -372,7 +372,7 @@ func TestDeleteCake(t *testing.T) {
 	}
 
 	type test struct {
-		fields  fields
+		fields  cakeFields
 		args    args
 		wantErr error
 	}
@@ -387,7 +387,7 @@ func TestDeleteCake(t *testing.T) {
 			}
 
 			return test{
-				fields: fields{
+				fields: cakeFields{
 					cakeRepo: &repository.CakeRepositoryMock{
 						DeleteFunc: func(ctx *gin.Context, id int64) error {
 							assert.Equal(t, args.ctx, ctx)
@@ -410,7 +410,7 @@ func TestDeleteCake(t *testing.T) {
 			}
 
 			return test{
-				fields: fields{
+				fields: cakeFields{
 					cakeRepo: &repository.CakeRepositoryMock{
 						DeleteFunc: func(ctx *gin.Context, id int64) error {
 							assert.Equal(t, args.ctx, ctx)
@@ -430,7 +430,7 @@ func TestDeleteCake(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			tt := testFn(t)
 
-			sut := sut(tt.fields)
+			sut := cakeSut(tt.fields)
 
 			err := sut.Delete(tt.args.ctx, tt.args.id)
 			if tt.wantErr != nil {

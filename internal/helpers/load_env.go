@@ -19,6 +19,9 @@ func GoDotEnvVariable(key string) string {
 	if strings.Contains(path, "repositories") {
 		path = path[:len(path)-21]
 	}
+	if strings.Contains(path, "usecases") {
+		path = path[:len(path)-17]
+	}
 
 	// load .env file
 	err = godotenv.Load(string(path) + "/.env")
