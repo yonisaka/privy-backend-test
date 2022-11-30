@@ -25,3 +25,11 @@ func ErrorValidationException(code int, msg []helpers.ErrorMsg) Error {
 		Status:  406,
 	}
 }
+
+func AuthException(code int, msg string) Error {
+	return Error{
+		Code:    code,
+		Message: msg,
+		Status:  401,
+	}
+}

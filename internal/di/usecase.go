@@ -10,3 +10,9 @@ func GetCakeUsecase() usecase.CakeUsecase {
 		GetCakeRepo(),
 	)
 }
+
+func GetUserUsecase() usecase.UserUsecase {
+	return usecases.NewUserUsecase(
+		GetUserRepo(),
+	)
+}
