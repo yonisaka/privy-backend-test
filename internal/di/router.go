@@ -1,8 +1,6 @@
 package di
 
 import (
-	"crypto/rand"
-	"privy-backend-test/internal/helpers"
 	"privy-backend-test/internal/middleware"
 
 	"github.com/gin-gonic/gin"
@@ -25,16 +23,4 @@ func GetHttpHandler(r *gin.Engine) {
 	cakes.PUT("/:id", GetCakeHandler().Update)
 	cakes.DELETE("/:id", GetCakeHandler().Delete)
 	cakes.POST("/upload", GetCakeHandler().UploadImage)
-
-	r.GET("/generate-aes", func(ctx *gin.Context) {
-		bytes := make([]byte, 32) //generate a random 32 byte key for AES-256
-		if _, err := rand.Read(bytes); err != nil {
-			panic(err.Error())
-		}
-
-		key := helpers.ConvertToString(bytes)
-		ctx.JSON(200, gin.H{
-			"key": key,
-		})
-	})
 }
