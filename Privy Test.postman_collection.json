@@ -7,13 +7,65 @@
 	},
 	"item": [
 		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"token_type result is Bearer\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"bearer\", \"Bearer \"+jsonData.data.access_token);",
+									"    pm.environment.set(\"refresh_token\", \"Bearer \"+jsonData.data.refresh_token);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"userdemo\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Cake",
 			"item": [
 				{
 					"name": "List",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{bearer}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{url}}/cakes",
 							"host": [
@@ -66,7 +118,13 @@
 					"name": "Detail",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{bearer}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{url}}/cakes/1",
 							"host": [
@@ -157,7 +215,13 @@
 					"name": "Store",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{bearer}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"title\": \"Cake Create\",\n    \"description\": \"Cake Create Description\",\n    \"rating\": 8.5,\n    \"image\": \"67a24120c865.jpeg\"\n}",
@@ -272,7 +336,13 @@
 					"name": "Update",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{bearer}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"title\": \"Cake Update\",\n    \"description\": \"Cake Update\",\n    \"rating\": 5,\n    \"image\": \"67a24120c865.jpeg\"\n}",
@@ -435,7 +505,13 @@
 					"name": "Delete",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{bearer}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{url}}/cakes/1",
 							"host": [
@@ -526,7 +602,13 @@
 					"name": "Upload Image",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{bearer}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
