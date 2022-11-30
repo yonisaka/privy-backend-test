@@ -17,7 +17,7 @@ func main() {
 	di.GetHttpHandler(r)
 
 	getImageFromURL(r)
-	r.Run(helpers.GoDotEnvVariable("BASE_URL"))
+	r.Run(helpers.GoDotEnvVariable("APP_PORT"))
 }
 
 func getImageFromURL(r *gin.Engine) {

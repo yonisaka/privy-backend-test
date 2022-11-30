@@ -99,7 +99,7 @@ $ go test internal/usecases/user_usecase_test.go -v
 Copy **.env.docker.default** menjadi **.env** 
 Untuk menjalankan menggunakan docker, bisa menggunakan docker compose
 ```
-$ docker-compose up
+$ docker-compose up -d
 ```
 
 ## Postman Collection
@@ -108,5 +108,5 @@ Untuk postman collection dapat di import dari **Privy Test.postman_collection**
 ### Postman Env
 | Key | Value |
 | ----------- | ----------- |
-| url | localhost:8081 |
+| url | localhost:8080 |
 | bearer | **generated token** |

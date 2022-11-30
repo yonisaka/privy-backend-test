@@ -1,24 +1,25 @@
 version: "3"
 services:
-  app:
-      build: .
-      container_name: privy-backend-test
-      restart: always
-      ports:
-        - 8081:8080
-      depends_on:
-        - mysql
-      networks:
-        - fullstack
   mysql:
-      container_name: privy-mysql
-      image: mysql:5.7.33
-      restart: always
-      environment:
-        MYSQL_DATABASE: 'privy_backend_test'
-        MYSQL_ROOT_PASSWORD: 'password'
-      ports:
-        - 3307:3306
+    container_name: privy-mysql
+    image: mysql:5.7.33
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'privy_backend_test'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - 3307:3306
+  app:
+    build: .
+    container_name: privy-backend-test
+    depends_on:
+      - mysql
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - fullstack
+
 networks:
   fullstack:
     driver: bridge

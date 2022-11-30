@@ -4,7 +4,7 @@ RUN apk update && apk add --no-cache git
 
 WORKDIR /app
 
-EXPOSE 8081
+EXPOSE 8080
 
 COPY . .
 
