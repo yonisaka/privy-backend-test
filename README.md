@@ -29,7 +29,10 @@ In short, it's a signed JSON object that does something useful (for example, aut
 Sqlx is a library which provides a set of extensions on go's standard database/sql library.
 
 ### [Go-SqlMock](https://pkg.go.dev/gopkg.in/DATA-DOG/go-sqlmock.v1#section-readme)
-sqlmock is a mock library implementing sql/driver. Which has one and only purpose - to simulate any sql driver behavior in tests, without needing a real database connection. It helps to maintain correct TDD workflow.
+Sqlmock is a mock library implementing sql/driver. Which has one and only purpose - to simulate any sql driver behavior in tests, without needing a real database connection. It helps to maintain correct TDD workflow.
+
+### [Logrus](https://github.com/sirupsen/logrus)
+Logrus is a structured logger for Go (golang), completely API compatible with the standard library logger.
 
 ## Requirements
 Membutuhkan requirements sebagai berikut.
