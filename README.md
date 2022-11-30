@@ -1,4 +1,4 @@
-# privy-rest-api 🔥
+# privy-backend-test 🔥
 Pretest PrivyID Backend Engineer
 Menggunakan Golang, Mysql sebagai database.
 
@@ -93,7 +93,7 @@ $ go test internal/usecases/cake_usecase_test.go -v
 ## Docker
 Untuk menjalankan menggunakan docker, bisa menggunakan docker compose
 ```
-$ docker-compose up -d
+$ docker-compose up
 ```
 
 ## Postman Collection
