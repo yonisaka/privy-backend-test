@@ -44,7 +44,7 @@ Pastikan semua requirements telah di terinstall di sistem.
 Clone projek ini dan install dependency yang dibutuhkan
 
 ```
-$ git clone https://gitlab.com/yonisaka/privy-backend-test
+$ git clone https://github.com/yonisaka/privy-backend-test
 $ cd privy-backend-test
 $ go mod tidy
 ```
@@ -83,14 +83,17 @@ $ air
 Run Unit Test Usecase: 
 ```
 $ go test internal/repositories/cake_repository_test.go -v
+$ go test internal/repositories/user_repository_test.go -v
 ```
 
 Run Unit Test Repository: 
 ```
 $ go test internal/usecases/cake_usecase_test.go -v
+$ go test internal/usecases/user_usecase_test.go -v
 ```
 
 ## Docker
+Copy **.env.docker.default** menjadi **.env** 
 Untuk menjalankan menggunakan docker, bisa menggunakan docker compose
 ```
 $ docker-compose up
