@@ -12,6 +12,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	"github.com/sirupsen/logrus"
 )
 
 type CakeHandler struct {
@@ -25,6 +26,7 @@ func NewCakeHandler(uc usecase.CakeUsecase) *CakeHandler {
 func (h *CakeHandler) GetCakes(ctx *gin.Context) {
 	res, err := h.uc.GetCakes(ctx)
 	if err != nil {
+		logrus.Error(err)
 		errorState := exceptions.ErrorException(http.StatusNotAcceptable, err.Error())
 		ctx.SecureJSON(errorState.Code, errorState)
 		return
@@ -37,12 +39,14 @@ func (h *CakeHandler) GetCakeByID(ctx *gin.Context) {
 
 	cakeID, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
+		logrus.Error(err)
 		errorState := exceptions.ErrorException(http.StatusNotAcceptable, err.Error())
 		ctx.SecureJSON(errorState.Code, errorState)
 		return
 	}
 	res, err := h.uc.GetCakeByID(ctx, cakeID)
 	if err != nil {
+		logrus.Error(err)
 		errorState := exceptions.ErrorException(http.StatusNotAcceptable, err.Error())
 		ctx.SecureJSON(errorState.Code, errorState)
 		return
@@ -68,6 +72,7 @@ func (h *CakeHandler) Store(ctx *gin.Context) {
 
 	err := h.uc.Store(ctx, &cake)
 	if err != nil {
+		logrus.Error(err)
 		errorState := exceptions.ErrorException(http.StatusNotAcceptable, err.Error())
 		ctx.SecureJSON(errorState.Code, errorState)
 		return
@@ -80,6 +85,7 @@ func (h *CakeHandler) Update(ctx *gin.Context) {
 
 	cakeID, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
+		logrus.Error(err)
 		errorState := exceptions.ErrorException(http.StatusNotAcceptable, err.Error())
 		ctx.SecureJSON(errorState.Code, errorState)
 		return
@@ -103,6 +109,7 @@ func (h *CakeHandler) Update(ctx *gin.Context) {
 	cake.ID = cakeID
 	err = h.uc.Update(ctx, &cake)
 	if err != nil {
+		logrus.Error(err)
 		errorState := exceptions.ErrorException(http.StatusNotAcceptable, err.Error())
 		ctx.SecureJSON(errorState.Code, errorState)
 		return
@@ -115,6 +122,7 @@ func (h *CakeHandler) Delete(ctx *gin.Context) {
 
 	cakeID, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
+		logrus.Error(err)
 		errorState := exceptions.ErrorException(http.StatusNotAcceptable, err.Error())
 		ctx.SecureJSON(errorState.Code, errorState)
 		return
@@ -122,6 +130,7 @@ func (h *CakeHandler) Delete(ctx *gin.Context) {
 
 	err = h.uc.Delete(ctx, cakeID)
 	if err != nil {
+		logrus.Error(err)
 		errorState := exceptions.ErrorException(http.StatusNotAcceptable, err.Error())
 		ctx.SecureJSON(errorState.Code, errorState)
 		return
@@ -132,6 +141,7 @@ func (h *CakeHandler) Delete(ctx *gin.Context) {
 func (h *CakeHandler) UploadImage(ctx *gin.Context) {
 	filename, err := h.uc.UploadImage(ctx)
 	if err != nil {
+		logrus.Error(err)
 		errorState := exceptions.ErrorException(http.StatusNotAcceptable, err.Error())
 		ctx.SecureJSON(errorState.Code, errorState)
 		return

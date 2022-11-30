@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	"github.com/sirupsen/logrus"
 )
 
 type UserHandler struct {
@@ -38,6 +39,7 @@ func (h *UserHandler) Login(ctx *gin.Context) {
 	}
 	auth, err := h.uc.Login(ctx, &user)
 	if err != nil {
+		logrus.Error(err)
 		errorState := exceptions.ErrorException(http.StatusNotAcceptable, err.Error())
 		ctx.SecureJSON(errorState.Code, errorState)
 		return
