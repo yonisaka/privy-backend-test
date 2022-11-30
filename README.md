@@ -22,6 +22,15 @@ Goose is a database migration tool. Manage your database schema by creating incr
 ### [Uuid](https://github.com/gofrs/uuid)
 Package uuid provides a pure Go implementation of Universally Unique Identifiers (UUID) variant as defined in RFC-4122. This package supports both the creation and parsing of UUIDs in different formats.
 
+### [Jwt-go](https://github.com/dgrijalva/jwt-go)
+In short, it's a signed JSON object that does something useful (for example, authentication). It's commonly used for Bearer tokens in Oauth 2. A token is made of three parts, separated by .'s. The first two parts are JSON objects, that have been base64url encoded. The last part is the signature, encoded the same way.
+
+### [Sqlx](https://github.com/jmoiron/sqlx)
+Sqlx is a library which provides a set of extensions on go's standard database/sql library.
+
+### [Go-SqlMock](https://pkg.go.dev/gopkg.in/DATA-DOG/go-sqlmock.v1#section-readme)
+sqlmock is a mock library implementing sql/driver. Which has one and only purpose - to simulate any sql driver behavior in tests, without needing a real database connection. It helps to maintain correct TDD workflow.
+
 ## Requirements
 Membutuhkan requirements sebagai berikut.
 
@@ -89,3 +98,9 @@ $ docker-compose up -d
 
 ## Postman Collection
 Untuk postman collection dapat di import dari **Privy Test.postman_collection**
+
+### Postman Env
+| Key | Value |
+| ----------- | ----------- |
+| url | localhost:8081 |
+| bearer | **generated token** |
