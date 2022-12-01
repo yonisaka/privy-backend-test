@@ -70,7 +70,6 @@ Command Down:
 $ go run database/migrate.go down
 ```
 ## Run Application
-Pastikan Mysql dan Redis sudah berjalan.
 
 Run Application :
 ```
